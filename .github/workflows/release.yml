@@ -19,18 +19,19 @@ jobs:
         go-version: '1.19'
         check-latest: true
 
-    - name: build
+    - name: build artifacts
       run: go build -o win-mac-addr.exe main.go
 
-    - name: generate release note
-      run: |
-        go install github.com/git-chglog/git-chglog/cmd/git-chglog
-        git-chglog -c .github/chglog/release.yml $(git describe --tags) > RELEASE.md
+    - name: build changelog
+      id: github_release
+      uses: mikepenz/release-changelog-builder-action@v3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: publish release
       uses: softprops/action-gh-release@v1
       with:
         files: win-mac-addr.exe
-        body_path: RELEASE.md
+        body: ${{steps.github_release.outputs.changelog}}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
