@@ -5,8 +5,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"net"
+	"os"
 
 	"golang.org/x/sys/windows"
 	"golang.zx2c4.com/wireguard/windows/tunnel/winipcfg"
@@ -29,4 +31,6 @@ func main() {
 		fmt.Printf("Description: %s\n", v.Description())
 		fmt.Printf("PhysicalAddress: %v\n", net.HardwareAddr(v.PhysicalAddress()))
 	}
+
+	bufio.NewScanner(os.Stdin).Scan()
 }
