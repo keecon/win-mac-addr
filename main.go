@@ -26,7 +26,7 @@ func main() {
 	defer f1.Close()
 
 	for _, v := range addrs {
-		if v.FirstGatewayAddress == nil || v.PhysicalAddress() == nil {
+		if v.FirstGatewayAddress == nil || len(v.PhysicalAddress()) == 0 {
 			continue
 		}
 
